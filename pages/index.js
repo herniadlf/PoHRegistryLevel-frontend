@@ -1,7 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Header from "../components/Header";
-import CoreRegistry from "../components/CoreRegistry";
+import Body from "../components/Body";
 
 export default function Home() {
     const iconURL =
@@ -14,7 +14,7 @@ export default function Home() {
                 <link rel="icon" type="image/png" href={iconURL}></link>
             </Head>
             <Header />
-            <CoreRegistry />
+            <Body />
         </div>
     );
 }

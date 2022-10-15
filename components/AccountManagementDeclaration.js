@@ -1,14 +1,16 @@
 import { ProofOfHumanitySoftABI, pohSoftMapping } from "../constants";
 import { useWeb3Contract, useMoralis } from "react-moralis";
+import { useState } from "react";
 import { useNotification } from "web3uikit";
 import { ethers } from "ethers";
 
-export default function AccountManagementDeclaration() {
+export default function AccountManagementDeclaration({ onDeclaration }) {
     const { chainId: chaindIdHex } = useMoralis();
     const chainId = parseInt(chaindIdHex);
     const contractAddress =
         chainId in pohSoftMapping ? pohSoftMapping[chainId]["ProofOfHumanitySoft"][0] : null;
     const dispatch = useNotification();
+    const [declarationDone, setDeclarationDone] = useState(false);
 
     const {
         runContractFunction: addSubmission,
@@ -27,19 +29,21 @@ export default function AccountManagementDeclaration() {
             message: "Transaction Complete!",
             title: "Transaction Notification",
             position: "topR",
-            icon: "bell",
         });
     };
 
     const handleSuccess = async (tx) => {
         try {
+            setDeclarationDone(true);
             await tx.wait(1);
             handleNewNotification(tx);
         } catch (error) {
             console.log(error);
         }
     };
-
+    if (declarationDone) {
+        return <div />;
+    }
     return (
         <div className="py-4">
             <button
